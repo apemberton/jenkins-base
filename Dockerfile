@@ -11,11 +11,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ntpdate
 
 # Create Jenkins user
-RUN useradd jenkins
+RUN useradd jenkins -d /home/jenkins
 RUN echo "jenkins:jenkins" | chpasswd
 
 # Make directories for [masters] JENKINS_HOME, jenkins.war lib and [slaves] remote FS root, ssh privilege separation directory
-RUN mkdir /usr/lib/jenkins /var/lib/jenkins /var/run/sshd /home/jenkins
+RUN mkdir /usr/lib/jenkins /var/lib/jenkins /home/jenkins /var/run/sshd
 
 # Set permissions
 RUN chown -R jenkins:jenkins /usr/lib/jenkins /var/lib/jenkins /home/jenkins
