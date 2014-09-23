@@ -10,14 +10,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ntp \
     ntpdate
 
+# Install Docker client
+RUN curl https://get.docker.io/builds/Linux/x86_64/docker-latest -o /usr/local/bin/docker
+RUN chmod +x /usr/local/bin/docker
+RUN groupadd docker
+
 # Create Jenkins user
 RUN useradd jenkins -d /home/jenkins
 RUN echo "jenkins:jenkins" | chpasswd
+RUN usermod -a -G docker jenkins
 
 # Make directories for [masters] JENKINS_HOME, jenkins.war lib and [slaves] remote FS root, ssh privilege separation directory
 RUN mkdir /usr/lib/jenkins /var/lib/jenkins /home/jenkins /var/run/sshd
 
 # Set permissions
 RUN chown -R jenkins:jenkins /usr/lib/jenkins /var/lib/jenkins /home/jenkins
+
+# USER jenkins
 
 CMD ["/bin/bash"]
