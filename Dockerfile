@@ -4,12 +4,14 @@ FROM debian:jessie
 MAINTAINER Andy Pemberton <apemberton@cloudbees.com>
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    openjdk-7-jdk \
     openssh-server \
     curl \
     ntp \
     ntpdate  \
     git
+
+RUN cd /opt &&  curl -L 'http://download.oracle.com/otn-pub/java/jdk/7u65-b17/jdk-7u65-linux-x64.tar.gz' -H 'Cookie: oraclelicense=accept-securebackup-cookie; gpw_e24=Dockerfile' | tar -xz
+RUN ln -s /opt/jdk1.7.0_65/bin/* /usr/local/bin/
 
 # Install Docker client
 RUN curl https://get.docker.io/builds/Linux/x86_64/docker-latest -o /usr/local/bin/docker
